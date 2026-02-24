@@ -1,4 +1,4 @@
-name: Create New Repository On Merge
+name: Create New Repository On Merge test
 
 on:
   pull_request:
