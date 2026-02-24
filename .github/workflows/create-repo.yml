@@ -1,0 +1,26 @@
+name: Create New Repository On Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  create-repo:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create new repository
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          curl -X POST https://api.github.com/user/repos \
+          -H "Authorization: token $GH_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          -d '{
+            "name": "new-repo-${{ github.run_number }}",
+            "private": false
+          }'
